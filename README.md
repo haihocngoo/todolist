@@ -48,20 +48,45 @@ Hệ thống giao diện đã được tích hợp sẵn tại tầng tĩnh củ
 ```
 http://localhost:8080
 ```
-###Cấu Trúc Thư Mục Dự Án Chính
+## 📂 Cấu Trúc Thư Mục Dự Án Chính
+
+Dưới đây là sơ đồ tổ chức mã nguồn của hệ thống Backend Spring Boot theo mô hình chuẩn hướng đối tượng và phân tách tầng xử lý:
+
+```text
 todolist/
+├── .gradle/                     # Thư mục cấu hình tự sinh của Gradle (Đã chặn đẩy Git)
+├── .idea/                       # Thư mục cấu hình không gian làm việc của IntelliJ (Đã chặn đẩy Git)
+├── build/                       # File mã nguồn sau khi biên dịch (Đã chặn đẩy Git)
+├── gradle/                      # Thư mục chứa gói wrapper để đồng bộ phiên bản Gradle
 ├── src/
-│   └── main/
-│       ├── java/com/example/demo/
-│       │   ├── config/          # Cấu hình Spring Security, CORS, JWT Filter, BCrypt
-│       │   ├── controller/      # Nơi tiếp nhận Request và định nghĩa Endpoint REST API
-│       │   ├── dto/             # Các lớp hứng dữ liệu đầu vào (Request) và đầu ra (Response)
-│       │   ├── entity/          # Ánh xạ cấu hình bảng dữ liệu (User, Todo)
-│       │   ├── exception/       # Bộ xử lý và gom lỗi tập trung @RestControllerAdvice
-│       │   ├── repository/      # Tầng giao tiếp truy vấn cơ sở dữ liệu MySQL
-│       │   └── service/         # Nơi xử lý toàn bộ logic nghiệp vụ (Business Logic)
-│       └── resources/
-│           ├── static/          # Chứa file giao diện tĩnh index.html phục vụ người dùng
-│           └── application.properties # Cấu hình kết nối DB, Hibernate, Port hệ thống
-├── docker-compose.yml           # File cấu hình môi trường đóng gói MySQL Container
-└── .gitignore                   # Cấu hình chặn các tệp tin rác của IntelliJ/Gradle khi đẩy Git
+│   ├── main/
+│   │   ├── java/com/example/demo/
+│   │   │   ├── config/          # Cấu hình hệ thống (Spring Security, cấu hình CORS, JWT Filter, BCrypt)
+│   │   │   ├── controller/      # Tầng tiếp nhận Request từ Client và định nghĩa các Endpoint RESTful API
+│   │   │   ├── dto/             # Các lớp trung chuyển dữ liệu (Request hứng data đầu vào, Response trả data đầu ra)
+│   │   │   │   ├── LoginRequest.java
+│   │   │   │   └── LoginResponse.java
+│   │   │   ├── entity/          # Các lớp ánh xạ trực tiếp xuống cấu trúc bảng trong Cơ sở dữ liệu (User, Todo)
+│   │   │   ├── exception/       # Bộ xử lý và gom lỗi tập trung của hệ thống sử dụng @RestControllerAdvice
+│   │   │   ├── repository/      # Tầng giao tiếp và thực thi các câu lệnh truy vấn xuống MySQL (Spring Data JPA)
+│   │   │   ├── security/        # Các lớp bổ trợ bảo mật (JwtTokenProvider xử lý tạo/mã hóa mã token)
+│   │   │   │   └── JwtTokenProvider.java
+│   │   │   ├── service/         # Tầng xử lý toàn bộ logic nghiệp vụ (Business Logic) chính của dự án
+│   │   │   └── DemoApplication.java # File chạy chính khởi động toàn bộ ứng dụng Spring Boot
+│   │   └── resources/
+│   │       ├── static/          # Chứa các tài nguyên tĩnh phục vụ giao diện người dùng hiển thị trên trình duyệt
+│   │       │   └── index.html   # File giao diện Frontend (HTML, CSS Bootstrap, JS Fetch API)
+│   │       ├── templates/       # Thư mục chứa các mẫu giao diện render phía Server (nếu có)
+│   │       └── application.properties # File cấu hình kết nối DB MySQL, cấu hình Hibernate, Port chạy mạng
+│   └── test/                    # Thư mục chứa các kịch bản kiểm thử mã nguồn (Unit Test / Integration Test)
+│       └── java/com/example/demo/
+│           └── DemoApplicationTests.java
+├── .gitattributes               # File cấu hình thuộc tính của hệ thống Git
+├── .gitignore                   # File định nghĩa danh sách các tệp tin rác cần bỏ qua, không đẩy lên GitHub
+├── build.gradle                 # File cấu hình chính quản lý thư viện và phiên bản của dự án Gradle
+├── docker-compose.yml           # File định nghĩa cấu hình môi trường đóng gói container độc lập cho MySQL 8.0
+├── gradlew                      # File thực thi Gradle trên môi trường Linux/macOS
+├── gradlew.bat                  # File thực thi Gradle trên môi trường Windows
+├── HELP.md                      # File hướng dẫn mặc định do Spring Initializr tự sinh ban đầu
+├── README.md                    # File tài liệu hướng dẫn chạy dự án bằng Tiếng Việt (chính là file này)
+└── settings.gradle              # File khai báo tên dự án để Gradle quản lý cấu trúc biên dịch
