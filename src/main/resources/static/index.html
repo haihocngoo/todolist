@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium To-Do App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- Auth Section -->
+        <div id="authSection" class="auth-card">
+            <div class="auth-header">
+                <div class="logo">
+                    <i class="fa-solid fa-list-check logo-icon"></i>
+                    <h1>TaskFlow</h1>
+                </div>
+                <p class="subtitle">Quản lý công việc thông minh & hiệu quả</p>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active">
+                <h2>Đăng Nhập</h2>
+                <div class="form-group">
+                    <label for="loginUsername"><i class="fa-solid fa-user"></i> Tên tài khoản</label>
+                    <input type="text" id="loginUsername" placeholder="Nhập username..." required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword"><i class="fa-solid fa-lock"></i> Mật khẩu</label>
+                    <input type="password" id="loginPassword" placeholder="Nhập mật khẩu..." required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Đăng Nhập <i class="fa-solid fa-right-to-bracket"></i></button>
+                <p class="auth-toggle">Chưa có tài khoản? <a href="#" id="toRegister">Đăng ký ngay</a></p>
+            </form>
+            
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form">
+                <h2>Đăng Ký Tài Khoản</h2>
+                <div class="form-group">
+                    <label for="registerUsername"><i class="fa-solid fa-user"></i> Tên tài khoản</label>
+                    <input type="text" id="registerUsername" placeholder="Từ 3 đến 20 ký tự..." required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail"><i class="fa-solid fa-envelope"></i> Email</label>
+                    <input type="email" id="registerEmail" placeholder="example@domain.com..." required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword"><i class="fa-solid fa-lock"></i> Mật khẩu</label>
+                    <input type="password" id="registerPassword" placeholder="Tối thiểu 6 ký tự..." required>
+                </div>
+                <button type="submit" class="btn btn-success btn-block">Đăng Ký <i class="fa-solid fa-user-plus"></i></button>
+                <p class="auth-toggle">Đã có tài khoản? <a href="#" id="toLogin">Quay lại đăng nhập</a></p>
+            </form>
+            
+            <div id="authMessage" class="alert-message"></div>
+        </div>
+
+        <!-- Main Dashboard Section (Hidden by Default) -->
+        <div id="dashboardSection" class="dashboard-container hidden">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="logo">
+                    <i class="fa-solid fa-list-check logo-icon"></i>
+                    <h2>TaskFlow</h2>
+                </div>
+                <div class="user-profile">
+                    <span id="userDisplay"><i class="fa-solid fa-circle-user"></i> Xin chào, <strong>User</strong></span>
+                    <button id="logoutBtn" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</button>
+                </div>
+            </header>
+
+            <!-- Main Content Area -->
+            <div class="dashboard-grid">
+                
+                <!-- Left Column: Add / Edit Task Form -->
+                <aside class="sidebar-card">
+                    <div class="card-header">
+                        <h3 id="formTitle">Tạo Công Việc Mới</h3>
+                        <button id="cancelEditBtn" class="btn btn-outline-secondary btn-sm hidden">Hủy sửa</button>
+                    </div>
+                    <form id="taskForm">
+                        <input type="hidden" id="taskId">
+                        <div class="form-group">
+                            <label for="taskTitle">Tiêu đề công việc</label>
+                            <input type="text" id="taskTitle" placeholder="Cần hoàn thành việc gì..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskDescription">Mô tả công việc</label>
+                            <textarea id="taskDescription" rows="4" placeholder="Chi tiết nội dung..."></textarea>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label for="taskPriority">Mức độ ưu tiên</label>
+                                <select id="taskPriority" required>
+                                    <option value="LOW">Thấp (LOW)</option>
+                                    <option value="MEDIUM" selected>Trung bình (MEDIUM)</option>
+                                    <option value="HIGH">Cao (HIGH)</option>
+                                </select>
+                            </div>
+                            <div class="form-group col">
+                                <label for="taskStatus">Trạng thái</label>
+                                <select id="taskStatus" required>
+                                    <option value="PENDING" selected>Đang chờ (PENDING)</option>
+                                    <option value="IN_PROGRESS">Đang làm (IN_PROGRESS)</option>
+                                    <option value="COMPLETED">Đã xong (COMPLETED)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="taskDueDate">Hạn chót hoàn thành (Due Date)</label>
+                            <input type="datetime-local" id="taskDueDate" required>
+                        </div>
+                        
+                        <button type="submit" id="saveTaskBtn" class="btn btn-primary btn-block">Lưu Công Việc <i class="fa-solid fa-floppy-disk"></i></button>
+                    </form>
+                    <div id="formMessage" class="alert-message"></div>
+                </aside>
+
+                <!-- Right Column: Task List & Controls -->
+                <main class="main-card">
+                    
+                    <!-- Filters and Sort Options -->
+                    <div class="controls-bar">
+                        <div class="search-filter-group">
+                            <div class="control-item">
+                                <label for="filterStatus"><i class="fa-solid fa-filter"></i> Trạng thái</label>
+                                <select id="filterStatus">
+                                    <option value="ALL">Tất cả</option>
+                                    <option value="PENDING">Đang chờ</option>
+                                    <option value="IN_PROGRESS">Đang làm</option>
+                                    <option value="COMPLETED">Đã xong</option>
+                                </select>
+                            </div>
+                            <div class="control-item">
+                                <label for="filterPriority"><i class="fa-solid fa-circle-exclamation"></i> Độ ưu tiên</label>
+                                <select id="filterPriority">
+                                    <option value="ALL">Tất cả</option>
+                                    <option value="LOW">Thấp</option>
+                                    <option value="MEDIUM">Trung bình</option>
+                                    <option value="HIGH">Cao</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="sort-group">
+                            <div class="control-item">
+                                <label for="sortBy"><i class="fa-solid fa-sort"></i> Sắp xếp</label>
+                                <select id="sortBy">
+                                    <option value="createdAt">Ngày tạo</option>
+                                    <option value="dueDate">Hạn chót</option>
+                                    <option value="title">Tiêu đề</option>
+                                </select>
+                            </div>
+                            <div class="control-item">
+                                <label for="sortDir"><i class="fa-solid fa-arrows-up-down"></i> Chiều</label>
+                                <select id="sortDir">
+                                    <option value="desc" selected>Giảm dần</option>
+                                    <option value="asc">Tăng dần</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tasks Display Area -->
+                    <div class="tasks-wrapper">
+                        <div id="tasksLoader" class="loader hidden">
+                            <i class="fa-solid fa-circle-notch fa-spin"></i> Đang tải dữ liệu...
+                        </div>
+                        <div id="noTasksMessage" class="no-tasks-alert hidden">
+                            <i class="fa-regular fa-folder-open"></i>
+                            <p>Không tìm thấy công việc nào phù hợp!</p>
+                        </div>
+                        <div id="tasksList" class="tasks-grid">
+                            <!-- Tasks will be rendered dynamically here -->
+                        </div>
+                    </div>
+
+                    <!-- Pagination Controls -->
+                    <div class="pagination-container">
+                        <span id="pageInfo">Trang 1 / 1</span>
+                        <div class="pagination-buttons">
+                            <button id="prevPageBtn" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-chevron-left"></i> Trước</button>
+                            <button id="nextPageBtn" class="btn btn-outline-primary btn-sm">Sau <i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

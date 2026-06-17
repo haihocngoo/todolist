@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  # Định nghĩa dịch vụ database MySQL độc lập
+  todo-db:
+    image: mysql:8.0
+    container_name: todo_mysql_container
+    ports:
+      - "3306:3306" # Mở cổng 3306 của container kết nối với cổng 3306 của máy bạn
+    environment:
+      MYSQL_ROOT_PASSWORD: haihocngu1                 # Mật khẩu tài khoản root
+      MYSQL_DATABASE: todolist         # Tên Database tự động khởi tạo ban đầu
+    volumes:
+      - mysql_data:/var/lib/mysql                 # Giữ lại dữ liệu không bị mất khi tắt container
+
+volumes:
+  mysql_data:
